@@ -16,8 +16,15 @@ permissions:
       actions: write
 
     steps:
-      - name: Cancelling workflow
+      - name: Cancel workflow
         uses: action-pack/cancel@v1
 ```
 
-In combination with the ```if``` statement, this allows you to cancel the workflow conditionally.
+In combination with the ```if``` statement, this allows you to cancel the workflow conditionally:
+
+```yaml
+    steps:
+      - name: Check condition
+        if: env.my_variable == 'true'
+        uses: action-pack/cancel@v1
+```
