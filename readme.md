@@ -9,7 +9,7 @@
 
 This action cancels the currently running workflow.
 
-## Usage
+## Usage 🚀
 
 ```yaml
 permissions:
@@ -29,5 +29,5 @@ In combination with the ```if``` statement, this allows you to cancel the workfl
         uses: action-pack/cancel@v1
 ```
 
-## Stars
+## Stars 🌟
 [![Stars](https://starchart.cc/action-pack/cancel.svg?variant=adaptive)](https://starchart.cc/action-pack/cancel)
