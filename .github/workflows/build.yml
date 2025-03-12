@@ -44,22 +44,22 @@ jobs:
       with:
         tag: "v${{ vars.MAJOR }}.${{ vars.MINOR }}"
         title: "v${{ vars.MAJOR }}.${{ vars.MINOR }}"
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
         body: |
           ${{ steps.changelog.outputs.changes }}
 
           **Full Changelog**: https://github.com/${{ github.repository }}/compare//${{ env.previousTag }}...v${{ vars.MAJOR }}.${{ vars.MINOR }}
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
     -
       name: Update major release
       uses: action-pack/github-release@v2
       with:
         tag: "v${{ vars.MAJOR }}"
         title: "v${{ vars.MAJOR }}"
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
         body: |
           ${{ steps.changelog.outputs.changes }}
 
           **Full Changelog**: https://github.com/${{ github.repository }}/compare//${{ env.previousTag }}...v${{ vars.MAJOR }}.${{ vars.MINOR }}
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
     -
       name: Increment version variable
       uses: action-pack/bump@v2
