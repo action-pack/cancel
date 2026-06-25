@@ -30,4 +30,4 @@ In combination with the ```if``` statement, this allows you to cancel the workfl
 ```
 
 ## Stars 🌟
-[![Stars](https://starchart.cc/action-pack/cancel.svg?variant=adaptive)](https://starchart.cc/action-pack/cancel)
+![Stargazers](https://raw.githubusercontent.com/star-stats/stars/refs/heads/data/charts/action-pack-cancel.svg)
