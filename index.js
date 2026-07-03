@@ -23,7 +23,7 @@ const req = https.request(options, (res) => {
 
   res.on("end", () => {
     if (res.statusCode === 202) {
-      console.log("Cancelled successfully.");
+      console.log(`Successfully cancelled the workflow run from job ${process.env.GITHUB_JOB}.`);
       process.exit(0);
     }
 
@@ -49,5 +49,3 @@ req.on("error", (error) => {
 });
 
 req.end();
-
-console.log(`::warning::Cancelled the workflow run from job ${process.env.GITHUB_JOB}`);
