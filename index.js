@@ -1,9 +1,11 @@
 const https = require("https");
+
 const options = {
   hostname: "api.github.com",
   path: `/repos/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}/cancel`,
   headers: {
-    Authorization: `token ${process.env.INPUT_TOKEN}`,
+    Authorization: `Bearer ${process.env.INPUT_TOKEN}`,
+    Accept: "application/vnd.github+json",
     "Content-Type": "application/json",
     "User-Agent": "actions/cancel-action",
   },
@@ -11,20 +13,38 @@ const options = {
 };
 
 const req = https.request(options, (res) => {
-  res.on("data", (data) => {
-    if (res.statusCode != 202) {
-      let parsed = JSON.parse(data);
-      console.log(`Error: ${parsed.message}`);
-      process.exit(1);
-    } else {
+  let body = "";
+
+  res.setEncoding("utf8");
+
+  res.on("data", (chunk) => {
+    body += chunk;
+  });
+
+  res.on("end", () => {
+    if (res.statusCode === 202) {
       console.log("Cancelled successfully.");
       process.exit(0);
     }
+
+    let message = body.trim();
+
+    if (message) {
+      try {
+        const parsed = JSON.parse(message);
+        message = parsed.message || message;
+      } catch {
+        // Response was not JSON, use raw body.
+      }
+    }
+
+    console.log(`Error: ${message || `GitHub returned status ${res.statusCode}`}`);
+    process.exit(1);
   });
 });
 
 req.on("error", (error) => {
-  console.log(`HTTP Error: ${error}`);
+  console.log(`HTTP Error: ${error.message}`);
   process.exit(1);
 });
 
