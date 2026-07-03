@@ -23,8 +23,9 @@ const req = https.request(options, (res) => {
 
   res.on("end", () => {
     if (res.statusCode === 202) {
-      console.log(`Successfully cancelled the workflow run from job ${process.env.GITHUB_JOB}.`);
-      process.exit(0);
+      console.log(`Successfully cancelled workflow run ${process.env.GITHUB_RUN_ID}.`);
+      process.exitCode = 0;
+      return;
     }
 
     let message = body.trim();
@@ -38,14 +39,14 @@ const req = https.request(options, (res) => {
       }
     }
 
-    console.log(`Error: ${message || `GitHub returned status ${res.statusCode}`}`);
-    process.exit(1);
+    console.error(`Error: ${message || `GitHub returned status ${res.statusCode}`}`);
+    process.exitCode = 1;
   });
 });
 
 req.on("error", (error) => {
-  console.log(`HTTP Error: ${error.message}`);
-  process.exit(1);
+  console.error(`HTTP Error: ${error.message}`);
+  process.exitCode = 1;
 });
 
 req.end();
